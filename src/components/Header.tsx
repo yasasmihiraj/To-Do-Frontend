@@ -26,7 +26,7 @@ export default function Header() {
     <header className="bg-green-300 shadow">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold text-red-500">My To-Do App</h1>
+          <h1 className="text-3xl font-bold text-green-700">My To-Do App</h1>
         </div>
         <div className="flex items-center gap-4">
           <span className="text-2xl text-blue-500 font-bold">Welcome, {user.name}</span>
