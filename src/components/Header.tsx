@@ -32,7 +32,7 @@ export default function Header() {
             </svg>
           </div>
           <h1 className="text-2xl font-bold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            My To-Do App
+            MyTo-DoApp
           </h1>
         </div>
         <div className="flex items-center gap-4">

@@ -62,9 +62,9 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 to-blue-50 py-12">
-      <div className="w-full max-w-md px-6">
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-zinc-50 to-cyan-200">
+      <div className="w-full max-w-md px-6 mt-6 mb-6">
+        <div className="bg-linear-to-t from-zinc-50 to-cyan-100 rounded-2xl shadow-xl p-8 border border-gray-100">
           {/* Logo */}
           <div className="flex justify-center mb-6">
             <div className="bg-linear-to-br from-indigo-600 to-purple-600 p-3 rounded-xl">
@@ -145,6 +145,7 @@ export default function RegisterPage() {
                 required
                 minLength={6}
               />
+              
             </div>
 
             <button
