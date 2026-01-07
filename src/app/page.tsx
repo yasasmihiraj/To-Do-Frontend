@@ -23,21 +23,21 @@ export default function LandingPage() {
   }, [router]);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-linear-to-br from-zinc-50 to-cyan-100">
       {/* Navigation */}
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <nav className="bg-cyan/70  border-gray-300 shadow-sm">
+        <div className="max-w-6xl mx-auto px-2 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="bg-indigo-600 p-2 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
               </svg>
             </div>
-            <span className="text-xl font-bold text-gray-900">My To-Do App</span>
+            <span className="text-xl font-bold bg-linear-to-b from-rose-700 to-indigo-600 bg-clip-text text-transparent">My To-Do App</span>
           </div>
           <Link
             href="/login"
-            className="text-gray-600 hover:text-gray-900 font-medium"
+            className="px-6 py-2 bg-white hover:bg-blue-100 text-gray-800 font-semibold rounded-lg transition-colors border-2 border-blue-600 shadow-lg"
           >
             Sign In
           </Link>
@@ -45,12 +45,12 @@ export default function LandingPage() {
       </nav>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-6 py-20">
+      <div className="max-w-4xl mx-auto px-6 py-20 mt-6 bg-linear-to-t from-zinc-50 to-cyan-100 rounded-2xl">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
             Manage Your Tasks
-            <span className="block text-indigo-600 mt-2">Simply & Efficiently</span>
+            <span className="block bg-linear-to-b from-pink-600 to-indigo-600 bg-clip-text text-transparent mt-2">Simply & Efficiently</span>
           </h1>
           <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
             A clean and simple task management app to help you stay organized and productive.
@@ -58,13 +58,13 @@ export default function LandingPage() {
           <div className="flex gap-4 justify-center">
             <Link
               href="/register"
-              className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors shadow-lg"
+              className="px-8 py-3 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02] shadow-lg"
             >
               Get Started
             </Link>
             <Link
               href="/login"
-              className="px-8 py-3 bg-white hover:bg-gray-50 text-gray-800 font-semibold rounded-lg transition-colors border-2 border-gray-200"
+              className="px-8 py-3 bg-white hover:bg-indigo-300 text-gray-800 font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02] border-2 border-blue-400 shadow-lg"
             >
               Sign In
             </Link>
@@ -79,7 +79,7 @@ export default function LandingPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Create Tasks</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-2 ">Create Tasks</h3>
             <p className="text-gray-600">Quickly add and organize your tasks with ease.</p>
           </div>
 

@@ -130,7 +130,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-linear-to-b from-zinc-50 to-cyan-200">
       <AdminHeader />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
