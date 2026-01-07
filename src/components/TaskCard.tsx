@@ -3,6 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+interface Attachment {
+  name: string;
+  path: string;
+  url: string;
+  size: number;
+  mime_type: string;
+}
+
 interface Task {
   id: number;
   title: string;
@@ -11,6 +19,7 @@ interface Task {
   created_at: string;
   due_date: string | null;
   priority: string;
+  attachments?: Attachment[];
 }
 
 interface TaskCardProps {
@@ -95,16 +104,50 @@ export default function TaskCard({ task, onTaskDeleted, onTaskUpdated }: TaskCar
     router.push(`/tasks/edit/${task.id}`);
   };
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityStyles = (priority: string, isCompleted: boolean) => {
+    if (isCompleted) {
+      return {
+        border: "border-gray-300",
+        bg: "bg-gradient-to-br from-gray-50 to-slate-100",
+        badge: "bg-gray-100 text-gray-500 border-gray-200",
+        glow: "shadow-gray-200",
+        icon: "✓"
+      };
+    }
+
     switch (priority) {
       case "high":
-        return "bg-red-100 text-red-700 border-red-200";
+        return {
+          border: "border-red-500",
+          bg: "bg-gradient-to-br from-red-50 to-orange-50",
+          badge: "bg-red-100 text-red-700 border-red-200",
+          glow: "shadow-red-200",
+          icon: "🔴"
+        };
       case "medium":
-        return "bg-amber-100 text-amber-700 border-amber-200";
+        return {
+          border: "border-amber-500",
+          bg: "bg-gradient-to-br from-amber-50 to-yellow-50",
+          badge: "bg-amber-100 text-amber-700 border-amber-200",
+          glow: "shadow-amber-200",
+          icon: "🟡"
+        };
       case "low":
-        return "bg-emerald-100 text-emerald-700 border-emerald-200";
+        return {
+          border: "border-emerald-500",
+          bg: "bg-gradient-to-br from-emerald-50 to-teal-50",
+          badge: "bg-emerald-100 text-emerald-700 border-emerald-200",
+          glow: "shadow-emerald-200",
+          icon: "🟢"
+        };
       default:
-        return "bg-gray-100 text-gray-700 border-gray-200";
+        return {
+          border: "border-gray-500",
+          bg: "bg-gradient-to-br from-gray-50 to-slate-50",
+          badge: "bg-gray-100 text-gray-700 border-gray-200",
+          glow: "shadow-gray-100",
+          icon: "⚪"
+        };
     }
   };
 
@@ -129,23 +172,42 @@ export default function TaskCard({ task, onTaskDeleted, onTaskUpdated }: TaskCar
     return new Date(dueDate) < new Date();
   };
 
+  const getFileIcon = (mimeType: string) => {
+    if (mimeType.startsWith('image/')) {
+      return '🖼️';
+    } else if (mimeType === 'application/pdf') {
+      return '📄';
+    } else {
+      return '🖇️';
+    }
+  };
+
+  const isCompleted = task.status === "completed";
+  const priorityStyles = getPriorityStyles(task.priority, isCompleted);
+
   return (
-    <div className={`bg-purple-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border-l-4 transform hover:-translate-y-1 ${
-      task.status === "completed" ? "border-emerald-500" : "border-indigo-500"
+    <div className={`${priorityStyles.bg} rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border-l-4 ${priorityStyles.border} ${priorityStyles.glow} transform hover:-translate-y-1 ${
+      isCompleted ? "opacity-70" : ""
     }`}>
+
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
-        <h3 className={`text-lg font-bold text-gray-900 flex-1 ${
-          task.status === "completed" ? "line-through text-gray-500" : ""
-        }`}>
-          {task.title}
-        </h3>
+        <div className="flex items-start gap-2 flex-1">
+          {isCompleted && (
+            <span className="text-xl mt-0.5 animate-pulse">✅</span>
+          )}
+          <h3 className={`text-lg font-bold flex-1 pr-8 ${
+            isCompleted ? "line-through text-gray-500" : "text-gray-900"
+          }`}>
+            {task.title}
+          </h3>
+        </div>
         
         {/* Action Buttons */}
         <div className="flex gap-2 ml-3">
           <button
             onClick={handleEdit}
-            className="p-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 transition-colors"
+            className="p-2 rounded-lg bg-blue-200 hover:bg-blue-300 text-blue-600 transition-colors"
             title="Edit task"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -157,11 +219,11 @@ export default function TaskCard({ task, onTaskDeleted, onTaskUpdated }: TaskCar
             onClick={handleStatusToggle}
             disabled={updateLoading}
             className={`p-2 rounded-lg transition-colors ${
-              task.status === "completed"
-                ? "bg-amber-50 hover:bg-amber-100 text-amber-600"
-                : "bg-emerald-50 hover:bg-emerald-100 text-emerald-600"
+              isCompleted
+                ? "bg-amber-200 hover:bg-amber-300 text-amber-600"
+                : "bg-emerald-200 hover:bg-emerald-300 text-emerald-600"
             } disabled:opacity-50`}
-            title={task.status === "completed" ? "Mark as pending" : "Mark as completed"}
+            title={isCompleted ? "Mark as pending" : "Mark as completed"}
           >
             {updateLoading ? (
               <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
@@ -175,7 +237,7 @@ export default function TaskCard({ task, onTaskDeleted, onTaskUpdated }: TaskCar
           <button
             onClick={handleDelete}
             disabled={deleteLoading}
-            className="p-2 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 transition-colors disabled:opacity-50"
+            className="p-2 rounded-lg bg-red-200 hover:bg-red-300 text-red-600 transition-colors disabled:opacity-50"
             title="Delete task"
           >
             {deleteLoading ? (
@@ -190,22 +252,59 @@ export default function TaskCard({ task, onTaskDeleted, onTaskUpdated }: TaskCar
       </div>
 
       {/* Description */}
-      <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+      <p className={`text-sm mb-4 line-clamp-3 leading-relaxed ${
+        isCompleted ? "text-gray-500" : "text-gray-600"
+      }`}>
         {task.description || "No description provided"}
       </p>
+
+      {/* Attachments Display */}
+      {task.attachments && task.attachments.length > 0 && (
+        <div className="mb-4 p-3 bg-white/50 rounded-lg border border-gray-200">
+          <div className="flex items-center gap-2 mb-2">
+            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+            </svg>
+            <span className="text-xs font-semibold text-gray-700">
+              {task.attachments.length} Attachment{task.attachments.length > 1 ? 's' : ''}
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {task.attachments.slice(0, 3).map((attachment, index) => (
+              <a
+                key={index}
+                href={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '')}${attachment.url}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 px-2 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded text-xs font-medium transition-colors border border-blue-200"
+                title={attachment.name}
+              >
+                <span>{getFileIcon(attachment.mime_type)}</span>
+                <span className="max-w-25 truncate">{attachment.name}</span>
+              </a>
+            ))}
+            {task.attachments.length > 3 && (
+              <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs font-medium">
+                +{task.attachments.length - 3} more
+              </span>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Tags */}
       <div className="flex flex-wrap gap-2 mb-4">
         <span className={`px-3 py-1 rounded-lg text-xs font-semibold border ${getStatusColor(task.status)}`}>
+          {isCompleted && "✓ "}
           {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
         </span>
-        <span className={`px-3 py-1 rounded-lg text-xs font-semibold border ${getPriorityColor(task.priority)}`}>
-          {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
+        <span className={`px-3 py-1 rounded-lg text-xs font-bold border-2 ${priorityStyles.badge}`}>
+          {priorityStyles.icon} {isCompleted ? "DONE" : task.priority.toUpperCase()}
         </span>
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between text-xs text-gray-500 pt-4 border-t border-gray-100">
+      <div className="flex items-center justify-between text-xs text-gray-500 pt-4 border-t border-gray-200">
         <div className="flex items-center gap-1">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
