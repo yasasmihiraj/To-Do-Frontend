@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AdminHeader from "@/components/Header";
 import UserTable from "@/components/UserTable";
+import { useAlert } from "@/contexts/AlertContext";
 
 interface User {
   id: number;
@@ -19,6 +20,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
   const router = useRouter();
+  const { showAlert } = useAlert();
 
   // Authentication Check & Fetching Logic
   useEffect(() => {
@@ -87,47 +89,117 @@ export default function AdminDashboard() {
     }
   };
 
+  // Role Change Handler
+  const handleRoleChange = async (userId: number, newRole: string) => {
+    const userToUpdate = users.find(u => u.id === userId);
+    
+    if (!userToUpdate) return;
+
+    const roleLabel = newRole === 'admin' ? 'Administrator' : 'Regular User';
+
+    showAlert({
+      title: 'Confirm Role Change',
+      message: `Are you sure you want to change ${userToUpdate.name}'s role to ${roleLabel}?`,
+      type: 'warning',
+      showCancel: true,
+      onConfirm: async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/users/${userId}/role`, {
+            method: "PUT",
+            headers: { 
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            },
+            body: JSON.stringify({ role: newRole })
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            // Update local state
+            setUsers(users.map(u => 
+              u.id === userId ? { ...u, role: newRole } : u
+            ));
+            setError("");
+            showAlert({
+              title: 'Success',
+              message: `${userToUpdate.name}'s role has been updated to ${roleLabel}.`,
+              type: 'success'
+            });
+          } else {
+            const errorData = await res.json();
+            setError(errorData.message || "Failed to update user role");
+            showAlert({
+              title: 'Error',
+              message: errorData.message || "Failed to update user role",
+              type: 'error'
+            });
+          }
+        } catch (err) {
+          console.error("Failed to update user role:", err);
+          setError("Network error. Failed to update user role.");
+          showAlert({
+            title: 'Error',
+            message: "Network error. Failed to update user role.",
+            type: 'error'
+          });
+        }
+      }
+    });
+  };
+
   // Delete Handler
   const handleDeleteUser = async (userId: number) => {
     const userToDelete = users.find(u => u.id === userId);
     
     if (!userToDelete) return;
 
-    if (!confirm(`Are you sure you want to delete ${userToDelete.name}?`)) return;
+    showAlert({
+      title: 'Confirm Deletion',
+      message: `Are you sure you want to delete ${userToDelete.name}? This action cannot be undone.`,
+      type: 'warning',
+      showCancel: true,
+      onConfirm: async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/users/${userId}`, {
+            method: "DELETE",
+            headers: { 
+              "Authorization": `Bearer ${token}`,
+              "Accept": "application/json",
+            },
+          });
 
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/users/${userId}`, {
-        method: "DELETE",
-        headers: { 
-          "Authorization": `Bearer ${token}`,
-          "Accept": "application/json",
-        },
-      });
-
-      if (res.ok) {
-        setUsers(users.filter((u) => u.id !== userId));
-        setError("");
-      } else {
-        const errorData = await res.json();
-        setError(errorData.message || "Failed to delete user");
+          if (res.ok) {
+            setUsers(users.filter((u) => u.id !== userId));
+            setError("");
+            showAlert({
+              title: 'Success',
+              message: `${userToDelete.name} has been deleted successfully.`,
+              type: 'success'
+            });
+          } else {
+            const errorData = await res.json();
+            setError(errorData.message || "Failed to delete user");
+            showAlert({
+              title: 'Error',
+              message: errorData.message || "Failed to delete user",
+              type: 'error'
+            });
+          }
+        } catch (err) {
+          console.error("Failed to delete user:", err);
+          setError("Network error. Failed to delete user.");
+          showAlert({
+            title: 'Error',
+            message: "Network error. Failed to delete user.",
+            type: 'error'
+          });
+        }
       }
-    } catch (err) {
-      console.error("Failed to delete user:", err);
-      setError("Network error. Failed to delete user.");
-    }
+    });
   };
-
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-50 via-blue-50 to-indigo-50">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-indigo-200 border-t-indigo-600 mb-4"></div>
-          <p className="text-gray-600 font-medium">Loading dashboard...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-linear-to-b from-zinc-50 to-cyan-200">
@@ -222,7 +294,7 @@ export default function AdminDashboard() {
               </div>
               <div>
                 <h2 className="text-xl font-bold text-gray-900">User Management</h2>
-                <p className="text-sm text-gray-600 mt-1">Manage all registered users in the system</p>
+                <p className="text-sm text-gray-600 mt-1">Manage all registered users and their roles</p>
               </div>
             </div>
           </div>
@@ -232,13 +304,14 @@ export default function AdminDashboard() {
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-200 border-t-indigo-600 mb-4"></div>
               <p className="text-gray-600 font-medium">Loading users...</p>
             </div>
-          ) : (
+          ) : user ? (
             <UserTable 
               users={users} 
               currentUserRole={user.role} 
-              onDelete={handleDeleteUser} 
+              onDelete={handleDeleteUser}
+              onRoleChange={handleRoleChange}
             />
-          )}
+          ) : null}
         </div>
       </main>
     </div>
