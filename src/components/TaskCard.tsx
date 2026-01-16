@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAlert } from "@/contexts/AlertContext";
 
 interface Attachment {
   name: string;
@@ -32,72 +33,115 @@ export default function TaskCard({ task, onTaskDeleted, onTaskUpdated }: TaskCar
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const router = useRouter();
+  const { showAlert } = useAlert();
 
   const handleDelete = async () => {
-    if (!confirm("Are you sure you want to delete this task?")) {
-      return;
-    }
+    showAlert({
+      title: 'Confirm Deletion',
+      message: `Are you sure you want to delete "${task.title}"? This action cannot be undone.`,
+      type: 'warning',
+      showCancel: true,
+      onConfirm: async () => {
+        setDeleteLoading(true);
 
-    setDeleteLoading(true);
+        try {
+          const token = localStorage.getItem("token");
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task.id}`, {
+            method: "DELETE",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Accept": "application/json",
+            },
+          });
 
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task.id}`, {
-        method: "DELETE",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Accept": "application/json",
-        },
-      });
-
-      if (res.ok) {
-        onTaskDeleted(task.id);
-      } else {
-        alert("Failed to delete task");
+          if (res.ok) {
+            onTaskDeleted(task.id);
+            showAlert({
+              title: 'Success',
+              message: 'Task deleted successfully!',
+              type: 'success'
+            });
+          } else {
+            showAlert({
+              title: 'Error',
+              message: 'Failed to delete task. Please try again.',
+              type: 'error'
+            });
+          }
+        } catch (err) {
+          console.error("Failed to delete task:", err);
+          showAlert({
+            title: 'Error',
+            message: 'Network error. Please try again.',
+            type: 'error'
+          });
+        } finally {
+          setDeleteLoading(false);
+        }
       }
-    } catch (err) {
-      console.error("Failed to delete task:", err);
-      alert("Network error. Please try again.");
-    } finally {
-      setDeleteLoading(false);
-    }
+    });
   };
 
   const handleStatusToggle = async () => {
-    setUpdateLoading(true);
     const newStatus = task.status === "completed" ? "pending" : "completed";
+    const statusMessage = newStatus === "completed" 
+      ? `Mark "${task.title}" as completed?` 
+      : `Mark "${task.title}" as pending?`;
 
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task.id}`, {
-        method: "PUT",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify({
-          title: task.title,
-          description: task.description,
-          status: newStatus,
-          priority: task.priority,
-          due_date: task.due_date,
-        }),
-      });
+    showAlert({
+      title: 'Confirm Status Change',
+      message: statusMessage,
+      type: 'info',
+      showCancel: true,
+      onConfirm: async () => {
+        setUpdateLoading(true);
 
-      if (res.ok) {
-        const data = await res.json();
-        const updatedTask = data.data || data;
-        onTaskUpdated(updatedTask);
-      } else {
-        alert("Failed to update task");
+        try {
+          const token = localStorage.getItem("token");
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${task.id}`, {
+            method: "PUT",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            },
+            body: JSON.stringify({
+              title: task.title,
+              description: task.description,
+              status: newStatus,
+              priority: task.priority,
+              due_date: task.due_date,
+            }),
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            const updatedTask = data.data || data;
+            onTaskUpdated(updatedTask);
+            showAlert({
+              title: 'Success',
+              message: `Task marked as ${newStatus}!`,
+              type: 'success'
+            });
+          } else {
+            showAlert({
+              title: 'Error',
+              message: 'Failed to update task status.',
+              type: 'error'
+            });
+          }
+        } catch (err) {
+          console.error("Failed to update task:", err);
+          showAlert({
+            title: 'Error',
+            message: 'Network error. Please try again.',
+            type: 'error'
+          });
+        } finally {
+          setUpdateLoading(false);
+        }
       }
-    } catch (err) {
-      console.error("Failed to update task:", err);
-      alert("Network error. Please try again.");
-    } finally {
-      setUpdateLoading(false);
-    }
+    });
   };
 
   const handleEdit = () => {

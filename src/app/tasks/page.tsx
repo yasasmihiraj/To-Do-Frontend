@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import TaskGrid from "@/components/TaskGrid";
+import StatsCards from "@/components/StatsCards";
 
 interface Task {
   id: number;
@@ -147,58 +148,7 @@ export default function TasksPage() {
         )}
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Total Tasks</p>
-                <p className="text-4xl font-bold text-gray-900">{tasks.length}</p>
-                <p className="text-xs text-gray-500 mt-2">All your tasks</p>
-              </div>
-              <div className="bg-linear-to-br from-blue-500 to-indigo-600 p-4 rounded-xl shadow-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Completed</p>
-                <p className="text-4xl font-bold text-emerald-600">
-                  {tasks.filter(t => t.status === 'completed').length}
-                </p>
-                <p className="text-xs text-gray-500 mt-2">
-                  {tasks.length > 0 ? Math.round((tasks.filter(t => t.status === 'completed').length / tasks.length) * 100) : 0}% completion rate
-                </p>
-              </div>
-              <div className="bg-linear-to-br from-emerald-500 to-green-600 p-4 rounded-xl shadow-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Pending</p>
-                <p className="text-4xl font-bold text-amber-600">
-                  {tasks.filter(t => t.status === 'pending').length}
-                </p>
-                <p className="text-xs text-gray-500 mt-2">Tasks to complete</p>
-              </div>
-              <div className="bg-linear-to-br from-amber-500 to-orange-600 p-4 rounded-xl shadow-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
+        <StatsCards tasks={tasks} />
 
         {/* Create Task Section */}
         <div className="mb-8 bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
