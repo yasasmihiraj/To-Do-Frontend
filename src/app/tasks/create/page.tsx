@@ -56,10 +56,8 @@ export default function CreateTaskPage() {
   return (
     <div className="min-h-screen bg-linear-to-b from-zinc-50 to-cyan-200">
       <Header />
-
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-
         {/* Create Task Form Component */}
         <CreateTaskForm onTaskCreated={handleTaskCreated} />
 

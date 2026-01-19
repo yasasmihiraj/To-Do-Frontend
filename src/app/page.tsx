@@ -58,13 +58,13 @@ export default function LandingPage() {
           <div className="flex gap-4 justify-center">
             <Link
               href="/register"
-              className="px-8 py-3 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02] shadow-lg"
+              className="px-8 py-3 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl transform hover:scale-[1.02] shadow-lg"
             >
               Get Started
             </Link>
             <Link
               href="/login"
-              className="px-8 py-3 bg-white hover:bg-indigo-300 text-gray-800 font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02] border-2 border-blue-400 shadow-lg"
+              className="px-8 py-3 bg-white hover:bg-indigo-300 text-gray-800 font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl transform hover:scale-[1.02] border-2 border-blue-400 shadow-lg"
             >
               Sign In
             </Link>
