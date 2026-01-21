@@ -27,17 +27,15 @@ export default function TaskGrid({ tasks, loading, onTaskDeleted, onTaskUpdated 
 
   const filteredTasks = useMemo(() => {
     return tasks.filter((task) => {
-      // Status filter
+  
       if (statusFilter !== "all" && task.status !== statusFilter) {
         return false;
       }
 
-      // Priority filter
       if (priorityFilter !== "all" && task.priority !== priorityFilter) {
         return false;
       }
 
-      // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         return (
@@ -73,7 +71,7 @@ export default function TaskGrid({ tasks, loading, onTaskDeleted, onTaskUpdated 
     <div>
       <div className="bg-gray-50 rounded-xl p-6 mb-6 border border-gray-200">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Search */}
+  
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Search</label>
             <div className="relative">
@@ -90,7 +88,6 @@ export default function TaskGrid({ tasks, loading, onTaskDeleted, onTaskUpdated 
             </div>
           </div>
 
-          {/* Status Filter */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Status</label>
             <select
@@ -104,7 +101,6 @@ export default function TaskGrid({ tasks, loading, onTaskDeleted, onTaskUpdated 
             </select>
           </div>
 
-          {/* Priority Filter */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Priority</label>
             <select

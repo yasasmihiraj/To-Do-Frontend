@@ -25,12 +25,11 @@ export default function UserTable({ users, currentUserRole, onDelete, onRoleChan
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
-      // Role filter
+     
       if (roleFilter !== "all" && user.role !== roleFilter) {
         return false;
       }
 
-      // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         return (
@@ -102,7 +101,7 @@ export default function UserTable({ users, currentUserRole, onDelete, onRoleChan
     <div>
       <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Search */}
+      
           <div>
             <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wider">
               Search Users
@@ -121,7 +120,6 @@ export default function UserTable({ users, currentUserRole, onDelete, onRoleChan
             </div>
           </div>
 
-          {/* Role Filter */}
           <div>
             <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wider">
               Filter by Role

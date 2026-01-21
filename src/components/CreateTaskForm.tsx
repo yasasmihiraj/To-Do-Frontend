@@ -118,7 +118,6 @@ export default function CreateTaskForm({ onTaskCreated }: CreateTaskFormProps) {
         formData.append("due_date", dueDate);
       }
 
-      // Append all attachments
       attachments.forEach((file) => {
         formData.append("attachments[]", file);
       });
@@ -147,7 +146,6 @@ export default function CreateTaskForm({ onTaskCreated }: CreateTaskFormProps) {
 
         onTaskCreated(newTask);
         
-        // Clear form
         setTitle("");
         setDescription("");
         setPriority("medium");

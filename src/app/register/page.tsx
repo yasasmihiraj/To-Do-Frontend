@@ -18,7 +18,6 @@ export default function RegisterPage() {
     setError("");
     setLoading(true);
 
-    // Client-side password confirmation check
     if (password !== passwordConfirmation) {
       setError("Passwords do not match");
       setLoading(false);
@@ -45,11 +44,9 @@ export default function RegisterPage() {
         return;
       }
 
-      // Store token and user data
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // Redirect based on role
       if (data.user.role === "admin") {
         router.push("/admin/dashboard");
       } else {
@@ -144,7 +141,6 @@ export default function RegisterPage() {
                 required
                 minLength={6}
               />
-              
             </div>
 
             <button

@@ -38,7 +38,6 @@ export default function CreateTaskPage() {
   }, [router]);
 
   const handleTaskCreated = (newTask: Task) => {
-    // Redirect back to tasks page after successful creation
     router.push("/tasks");
   };
 

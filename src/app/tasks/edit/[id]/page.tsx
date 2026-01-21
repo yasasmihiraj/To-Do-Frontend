@@ -188,12 +188,10 @@ export default function EditTaskPage() {
         formData.append("due_date", dueDate);
       }
 
-      // Add new attachments
       newAttachments.forEach((file) => {
         formData.append("attachments[]", file);
       });
 
-      // Add files to remove
       removeAttachments.forEach((path) => {
         formData.append("remove_attachments[]", path);
       });

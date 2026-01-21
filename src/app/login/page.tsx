@@ -32,11 +32,9 @@ export default function LoginPage() {
         return;
       }
 
-      // Store token and user data
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-
-      // Redirect based on role
+      
       if (data.user.role === "admin") {
         router.push("/admin");
       } else {
