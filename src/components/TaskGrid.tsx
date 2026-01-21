@@ -25,7 +25,6 @@ export default function TaskGrid({ tasks, loading, onTaskDeleted, onTaskUpdated 
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // Filter tasks
   const filteredTasks = useMemo(() => {
     return tasks.filter((task) => {
       // Status filter
@@ -72,7 +71,6 @@ export default function TaskGrid({ tasks, loading, onTaskDeleted, onTaskUpdated 
 
   return (
     <div>
-      {/* Filters */}
       <div className="bg-gray-50 rounded-xl p-6 mb-6 border border-gray-200">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search */}
@@ -122,7 +120,6 @@ export default function TaskGrid({ tasks, loading, onTaskDeleted, onTaskUpdated 
           </div>
         </div>
 
-        {/* Clear Filters Button */}
         {hasActiveFilters && (
           <div className="mt-4">
             <button
@@ -138,7 +135,6 @@ export default function TaskGrid({ tasks, loading, onTaskDeleted, onTaskUpdated 
         )}
       </div>
 
-      {/* Task Count */}
       <div className="mb-6 flex items-center justify-between">
         <p className="text-gray-600">
           Showing <span className="font-bold text-gray-900">{filteredTasks.length}</span> of{" "}
@@ -146,7 +142,6 @@ export default function TaskGrid({ tasks, loading, onTaskDeleted, onTaskUpdated 
         </p>
       </div>
 
-      {/* Tasks Grid */}
       {filteredTasks.length === 0 ? (
         <div className="bg-white rounded-2xl shadow-lg p-12 text-center border border-gray-100">
           <div className="text-gray-300 mb-4">

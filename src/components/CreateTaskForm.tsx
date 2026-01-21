@@ -36,13 +36,11 @@ export default function CreateTaskForm({ onTaskCreated }: CreateTaskFormProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     
-    // Validate file count
     if (files.length + attachments.length > 5) {
       setError("You can upload maximum 5 files");
       return;
     }
 
-    // Validate file types
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf', 
                           'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     const invalidFiles = files.filter(file => !allowedTypes.includes(file.type));
@@ -52,7 +50,6 @@ export default function CreateTaskForm({ onTaskCreated }: CreateTaskFormProps) {
       return;
     }
 
-    // Validate file sizes (5MB each)
     const oversizedFiles = files.filter(file => file.size > 5 * 1024 * 1024);
     if (oversizedFiles.length > 0) {
       setError("Each file must not exceed 5MB");
@@ -111,7 +108,6 @@ export default function CreateTaskForm({ onTaskCreated }: CreateTaskFormProps) {
         return;
       }
 
-      // Create FormData for multipart/form-data
       const formData = new FormData();
       formData.append("title", title.trim());
       formData.append("description", description.trim());

@@ -23,7 +23,6 @@ export default function AlertBox({
 }: AlertBoxProps) {
   useEffect(() => {
     if (isOpen) {
-      // Prevent scrolling when modal is open
       document.body.style.overflow = 'hidden';
       
       const handleEscape = (e: KeyboardEvent) => {

@@ -207,7 +207,6 @@ export default function AdminDashboard() {
       <AdminHeader />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             Admin <span className="bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Dashboard</span>
@@ -232,10 +231,8 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Stats Cards */}
         <AdminStatsCards users={users} />
 
-        {/* User Management Table */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
           <div className="px-6 py-5 border-b border-gray-200 bg-linear-to-r from-indigo-50 to-purple-50">
             <div className="flex items-center gap-3">

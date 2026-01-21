@@ -58,10 +58,8 @@ export default function CreateTaskPage() {
       <Header />
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        {/* Create Task Form Component */}
         <CreateTaskForm onTaskCreated={handleTaskCreated} />
 
-        {/* Back Button */}
         <div className="mb-6 mt-10 flex justify-center">
           <button
             onClick={() => router.push("/tasks")}

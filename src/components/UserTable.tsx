@@ -23,7 +23,6 @@ export default function UserTable({ users, currentUserRole, onDelete, onRoleChan
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
   const [selectedRole, setSelectedRole] = useState<string>("");
 
-  // Filter users
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
       // Role filter
@@ -101,7 +100,6 @@ export default function UserTable({ users, currentUserRole, onDelete, onRoleChan
 
   return (
     <div>
-      {/* Filters */}
       <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Search */}
@@ -140,7 +138,6 @@ export default function UserTable({ users, currentUserRole, onDelete, onRoleChan
           </div>
         </div>
 
-        {/* Clear Filters & Results Count */}
         <div className="mt-4 flex items-center justify-between">
           <p className="text-sm text-gray-600">
             Showing <span className="font-bold text-gray-900">{filteredUsers.length}</span> of{" "}
@@ -159,8 +156,7 @@ export default function UserTable({ users, currentUserRole, onDelete, onRoleChan
           )}
         </div>
       </div>
-
-      {/* Table */}
+      
       {filteredUsers.length === 0 ? (
         <div className="p-12 text-center">
           <div className="text-gray-300 mb-4">

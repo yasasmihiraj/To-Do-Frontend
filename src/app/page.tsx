@@ -23,8 +23,7 @@ export default function LandingPage() {
   }, [router]);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-zinc-50 to-cyan-100">
-      {/* Navigation */}
+    <div className="min-h-screen bg-linear-to-br from-zinc-50 to-cyan-100"> 
       <nav className="bg-cyan/70  border-gray-300 shadow-sm">
         <div className="max-w-6xl mx-auto px-2 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -44,9 +43,8 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Main Content */}
+   
       <div className="max-w-4xl mx-auto px-6 py-20 mt-6 bg-linear-to-t from-zinc-50 to-cyan-100 rounded-2xl">
-        {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
             Manage Your Tasks
@@ -71,7 +69,7 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Features */}
+       
         <div className="grid md:grid-cols-3 gap-8">
           <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
             <div className="bg-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
@@ -105,7 +103,6 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="bg-white border-t mt-20 py-6">
         <div className="max-w-6xl mx-auto px-6 text-center text-gray-600">
           <p>© Simple Task Management</p>

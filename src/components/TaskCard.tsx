@@ -234,7 +234,6 @@ export default function TaskCard({ task, onTaskDeleted, onTaskUpdated }: TaskCar
       isCompleted ? "opacity-70" : ""
     }`}>
 
-      {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-start gap-2 flex-1">
           {isCompleted && (
@@ -295,7 +294,6 @@ export default function TaskCard({ task, onTaskDeleted, onTaskUpdated }: TaskCar
         </div>
       </div>
 
-      {/* Description */}
       <p className={`text-sm mb-4 line-clamp-3 leading-relaxed ${
         isCompleted ? "text-gray-500" : "text-gray-600"
       }`}>
@@ -347,7 +345,6 @@ export default function TaskCard({ task, onTaskDeleted, onTaskUpdated }: TaskCar
         </span>
       </div>
 
-      {/* Footer */}
       <div className="flex items-center justify-between text-xs text-gray-500 pt-4 border-t border-gray-200">
         <div className="flex items-center gap-1">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

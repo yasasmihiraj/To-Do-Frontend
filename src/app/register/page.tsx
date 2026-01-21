@@ -65,7 +65,6 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-zinc-50 to-cyan-200">
       <div className="w-full max-w-md px-6 mt-6 mb-6">
         <div className="bg-linear-to-t from-zinc-50 to-cyan-100 rounded-2xl shadow-xl p-8 border border-gray-100">
-          {/* Logo */}
           <div className="flex justify-center mb-6">
             <div className="bg-linear-to-br from-indigo-600 to-purple-600 p-3 rounded-xl">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

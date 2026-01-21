@@ -30,7 +30,6 @@ export default function Header() {
           message: 'You have been successfully logged out.',
           type: 'success'
         });
-        // Small delay to show success message before redirecting
         setTimeout(() => {
           router.push("/login");
         }, 1000);
